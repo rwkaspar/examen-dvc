@@ -1,0 +1,1 @@
+RandomForest: {'max_depth': 10, 'n_estimators': 50}, MSE=0.8889

@@ -6,11 +6,13 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import GridSearchCV
 
 def load_data(X_path, y_path):
+    """Load feature and target data from CSV files."""
     X = pd.read_csv(X_path)
     y = pd.read_csv(y_path).values.ravel()
     return X, y
 
 def main(X_path, y_path, output_path):
+    """Main function to perform grid search for hyperparameter tuning."""
     X, y = load_data(X_path, y_path)
 
     param_grid = {
@@ -26,7 +28,7 @@ def main(X_path, y_path, output_path):
     best_score = -grid.best_score_
 
     os.makedirs(output_path, exist_ok=True)
-    joblib.dump(best_model, os.path.join(output_path, "best_model.pkl"))
+    joblib.dump(best_model, os.path.join(output_path, "best_model.joblib"))
     joblib.dump(best_params, os.path.join(output_path, "best_params.pkl"))
 
     with open(os.path.join(output_path, "best_model.txt"), "w") as f:
@@ -38,7 +40,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--X", type=str, default="data/processed_data/X_train_scaled.csv")
     parser.add_argument("--y", type=str, default="data/processed_data/y_train.csv")
-    parser.add_argument("--output", type=str, default="models/models")
+    parser.add_argument("--output", type=str, default="models")
     args = parser.parse_args()
 
     main(args.X, args.y, args.output)
