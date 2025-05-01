@@ -2,20 +2,29 @@ stages:
   split_data:
     cmd: python src/data/split_data.py
     deps:
-      - data/raw_data/raw.csv
-      - src/data/split_data.py
+    - data/raw_data/raw.csv
+    - src/data/split_data.py
     outs:
-      - data/processed_data/X_train.csv
-      - data/processed_data/X_test.csv
-      - data/processed_data/y_train.csv
-      - data/processed_data/y_test.csv
-
+    - data/processed_data/X_train.csv
+    - data/processed_data/X_test.csv
+    - data/processed_data/y_train.csv
+    - data/processed_data/y_test.csv
   normalize_data:
     cmd: python src/data/normalize_data.py
     deps:
-      - src/data/normalize_data.py
-      - data/processed_data/X_train.csv
-      - data/processed_data/X_test.csv
+    - src/data/normalize_data.py
+    - data/processed_data/X_train.csv
+    - data/processed_data/X_test.csv
     outs:
-      - data/processed_data/X_train_scaled.csv
-      - data/processed_data/X_test_scaled.csv
+    - data/processed_data/X_train_scaled.csv
+    - data/processed_data/X_test_scaled.csv
+  grid_search:
+    cmd: python src/models/grid_search.py
+    deps:
+    - data/processed_data/X_train_scaled.csv
+    - data/processed_data/y_train.csv
+    - src/models/grid_search.py
+    outs:
+    - models/models/best_model.pkl
+    - models/models/best_model.txt
+    - models/models/best_params.pkl

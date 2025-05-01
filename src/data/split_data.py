@@ -9,16 +9,8 @@ def split_data(input_path, output_dir, test_size=0.2, random_state=42):
     # Load the data
     df = pd.read_csv(input_path)
 
-    # Drop timestamp column if exists (e.g. first column), as they cause issues
-    if 'timestamp' in df.columns:
-        df = df.drop(columns='timestamp')
-    elif 'date' in df.columns:
-        df = df.drop(columns='date')
-    elif isinstance(df.columns[0], str) and "20" in df.columns[0]:  # crude fallback
-        df = df.drop(df.columns[0], axis=1)
-
     # Features and target
-    X = df.drop(columns=['silica_concentrate'])
+    X = df.drop(columns=['silica_concentrate', 'date'])
     y = df['silica_concentrate']
 
     # Split
